@@ -1,0 +1,246 @@
+%----------------------------------------------------------------------------------------
+%	DOCUMENT DEFINITION
+%----------------------------------------------------------------------------------------
+% article class because we want to fully customize the page and not use a cv template
+\documentclass[a4paper,11pt]{article}
+
+%----------------------------------------------------------------------------------------
+%	FONT
+%----------------------------------------------------------------------------------------
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+
+%----------------------------------------------------------------------------------------
+%	PACKAGES
+%----------------------------------------------------------------------------------------
+\usepackage[scale=0.9]{geometry}
+\usepackage{needspace}
+%more of a cover my back thing for loading packages as array *should* be auto-loaded
+%by the tabularx package but let's not leave things to chance
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{enumitem}
+\usepackage{xcolor}
+\usepackage[unicode]{hyperref}
+\usepackage{titlesec}				
+
+%Fix our paragraph spacing cause this is a resume not a paper
+\setlength{\parindent}{0pt}
+\setlength{\parskip}{0pt}
+
+%Stop the tomfoolery of weird latex spacing
+\frenchspacing
+%non-numbered pages
+\pagestyle{empty} 
+
+%The line under email/name/number section.
+%Put into a macro to clean up the meat n potatoes of the doc
+\newcommand{\fullwidthrule}[2]
+{%
+	\noindent
+	\hspace*{-\dimexpr1in+\hoffset+\oddsidemargin-#1\relax}%
+	\rule{\dimexpr\paperwidth-2\dimexpr#1\relax\relax}{#2}%
+}
+
+%specify new column type for the main title
+\newcolumntype{B}{>{\centering\bfseries\huge\arraybackslash}X}
+%specify new column type for the sep enviros
+\newcolumntype{Y}{>{\raggedright\arraybackslash}X}
+
+%Setup hyperlink colors
+\definecolor{linkcolour}{rgb}{0,0.2,0.6}
+\hypersetup
+{
+	colorlinks,
+	breaklinks,
+	urlcolor=linkcolour,
+	linkcolor=linkcolour
+}
+
+%title formatting stuff
+\titleformat{\section}
+	{\needspace{4\baselineskip}\bfseries\large}
+	{}
+	{0pt}
+	{}
+	[{\titlerule[1pt]}]
+\titlespacing*{\section}
+	{-12pt}
+	{.5\baselineskip}
+	{0.25\baselineskip}
+
+%Normalize our itemize sections
+\setlist[itemize]
+{
+	leftmargin=2em,
+	topsep=0pt,
+	itemsep=0pt,
+	parsep=0pt,
+	partopsep=0pt,
+	label=\textbullet
+}
+%normalize itemize sub bullet 
+\setlist[itemize,2]
+{
+	leftmargin=1.25em,
+	topsep=0pt,
+	itemsep=0pt,
+	parsep=0pt,
+	partopsep=0pt,
+	label=\textbullet
+}
+
+% job listing environment
+\newenvironment{job}[5]
+{%
+	\vspace{2pt}
+	\begin{tabularx}{\linewidth}{@{}l Y r@{}}
+		\textbf{#1 \textbar} #2 & \hfill &  #3 \\
+		\textit{#4} & \hfill &  #5\\
+	\end{tabularx}
+	\begin{itemize}
+}
+{%
+	\end{itemize}
+}
+
+% personal project enviroment
+\newenvironment{project}[1]
+{%
+	\vspace{2pt}
+	\textbf{#1}\par
+	\begin{itemize}
+} 
+{%
+	\end{itemize}
+}
+
+%extracurriculars and awards stuff, one is for allowing a bullet list within
+\newenvironment{extraList}[2]
+{%
+	\begin{tabularx}{\linewidth}{@{}l Y r@{}}
+		#1 & \hfill & #2 \\
+	\end{tabularx}
+	\begin{itemize}
+}
+{%
+	\end{itemize}
+}
+
+\newenvironment{extra}[2]
+{%
+	\begin{tabularx}{\linewidth}{@{}l Y r@{}}
+		#1 & \hfill & #2 \\
+	\end{tabularx}
+}
+{}
+
+%only using commands because nothing in body of these
+\newcommand{\education}[5]
+{%
+	\begin{tabularx}{\linewidth}{@{}l Y r@{}}
+		\textbf{#1 \textbar} #2 & \hfill & Graduation: #3 \\
+		\textit{#4} & \hfill & GPA #5/4.0
+	\end{tabularx}%
+}
+
+\newcommand{\publication}[4]
+{%
+	\textbf{#1}\par
+	\begin{tabularx}{\linewidth}{@{}X r@{}}	
+		#2 & #3: \href{#4}{#4} \\
+	\end{tabularx}%
+}
+
+%----------------------------------------------------------------------------------------
+%	BEGIN DOCUMENT
+%----------------------------------------------------------------------------------------
+\begin{document}
+
+	%----------------------------------------------------------------------------------------
+	%	TITLE
+	%----------------------------------------------------------------------------------------
+	\begin{tabularx}{\linewidth}{@{}l B @{}r}
+		\href{mailto:email@email.com}{email@email.com}&First M.I. Last&(123) 456-7890 
+	\end{tabularx}
+	\fullwidthrule{10pt}{2pt}
+	
+	%----------------------------------------------------------------------------------------
+	%	SUMMARY
+	%----------------------------------------------------------------------------------------
+	\section{SUMMARY}
+	A really cool professional summary.
+	
+	%----------------------------------------------------------------------------------------
+	%	SKILLS
+	%----------------------------------------------------------------------------------------
+	\section{TECHNICAL SKILLS}
+	\begin{tabularx}{\linewidth}{@{} >{\bfseries}l X@{}}
+		Skill 1:	& Subskill 1.1, Subskill 1.2, Subskill 1.3\\
+		Skill 2:	& Subskill 2.1, Subskill 2.2, Subskill 2.3\\
+		Skill 3:	& Subskill 3.1, Subskill 3.2, Subskill 3.3\\
+	\end{tabularx}
+	
+	%----------------------------------------------------------------------------------------
+	%	EXPERIENCE
+	%----------------------------------------------------------------------------------------
+	\section{WORK AND RESEARCH EXPERIENCE}
+	\begin{job}{Company 1}{City, State}{Month Year - Month Year}{Job Title}{X yrs, Y mos}
+		\item Company actionable 1.
+		\item Company actionable 2.
+		\item Company actionable 3.
+	\end{job}
+	\begin{job}{Company 2}{City, State}{Month Year - Month Year}{Job Title}{X yrs, Y mos}
+		\item Company actionable 1.
+		\item Company actionable 2.
+		%sub-bullet example
+		\begin{itemize}
+			\item Company actionable 2.1.
+			\item Company actionable 2.2.
+		\end{itemize}
+		\item Company actionable 3.
+	\end{job}
+	
+	%----------------------------------------------------------------------------------------
+	%	PROJECTS
+	%----------------------------------------------------------------------------------------
+	\section{SELECTED PROJECTS}
+	\begin{project}{Project 1 Name}
+		\item Project actionable 1.
+		\item Project actionable 2.
+	\end{project}	
+	\begin{project}{Project 2 Name}	
+		\item Project actionable 1.
+		\item Project actionable 2.
+	\end{project}
+	
+	%----------------------------------------------------------------------------------------
+	%	EDUCATION
+	%----------------------------------------------------------------------------------------
+	\section{EDUCATION}
+	\education
+	{Education Institution Name}{City, State}{Month Year}{Degree/Awards}{4.0}
+	
+	\education
+	{Education Institution Name}{City, State}{Month Year}{Degree/Awards}{4.0}
+	
+	%----------------------------------------------------------------------------------------
+	%	PUBLICATIONS
+	%----------------------------------------------------------------------------------------	
+	\section{SELECTED PUBLICATIONS}
+	\publication
+	{Publication Title.}
+	{AuthorName, \textit{et al.}}{Journal}{JournalURL}
+	
+	%----------------------------------------------------------------------------------------
+	%	EXTRACURRICULARS AND AWARDS
+	%----------------------------------------------------------------------------------------
+	\section{EXTRACURRICULARS AND AWARDS}	
+	\begin{extraList}{Extracurricular 1}{Month Year - Month Year}
+		\item Extracurricular actionable 1.
+		\item Extracurricular actionable 2.
+	\end{extraList}
+	\begin{extra}{Extracurricular 2}{Month Year - Month Year}
+	\end{extra}
+
+\end{document}
